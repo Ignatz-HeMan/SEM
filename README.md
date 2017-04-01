@@ -15,6 +15,6 @@ Last Changelog:
 2017-04-01
 - Fixed: Dynamic missions were broken, also if in Config activated
 - Added: Some Options to Bandit Device (sem\missionsStatic\bDevice.sqf)
-   - Alarm fpor x minutes after x minutes after mission start, if AI's not killed
+   - Alarm x minutes after mission start, if AI's not killed
    - Big explosions with damaged Buildings and Earthquake within x meter from Device
 - Fixed: A small bug in loot script
