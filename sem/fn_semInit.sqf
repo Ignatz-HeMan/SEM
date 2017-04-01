@@ -243,6 +243,7 @@
 	publicvariable 'SEM_Client_GlobalHint';
 	
 	[
-		[SEM_staticMissions, SEM_staticMissionsPath ,"static"]
+		[SEM_staticMissions, SEM_staticMissionsPath ,"static"],
+		[SEM_dynamicMissions, SEM_dynamicMissionsPath ,"dynamic"]
 	] call SEM_fnc_missionController;
 };

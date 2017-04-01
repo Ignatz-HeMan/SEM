@@ -6,10 +6,17 @@ private["_pos","_timeout","_name","_missionID","_missionType","_missionObjects",
 	Edited by KiloSwiss
 */
 /*
-	Update 27.03.2017
+	Update 29.03.2017
 	By [Ignatz] He-Man
 */
 
+// Start additional Settings only for bDevice (Added by [Ignatz] He-Man)
+_UseExplodeOnTimeout = false;		// If the AI's are not killed after a defined time, the missions ends with "failed", a big explosion comes up with Earthquake
+	_DeviceTimeout = 30;			// 30 mins to kill the AIs
+	_alarmtime = 1.5;				// 1.5 mins Alarm bofore Explosion
+	_damagenearhouses = true;		// Houeses near the exploding device can be damaged
+	_damageRadius = 1000;			// Radius effected by damage (higher the number, higher the risk of lag)
+// End additional Settings
 
 _pos = _this select 0;
 _name = _this select 1 select 1;
@@ -48,11 +55,44 @@ Remove the device and enemies as soon as possible!";
 [0,_hintString] remoteexec ["SEM_Client_GlobalHint",-2];
 
 	/* Mission End Conditions */
+private ['_endcondition'];
 _start = time;
 _units = units _group;
+_endcondition = 0;
+_DeviceTimeout = time + (_DeviceTimeout*60);
 waitUntil{	sleep 5;
 	_endCondition = [_pos,_units,_start,_timeout,_missionID,[_box1]]call SEM_fnc_endCondition;
-	(_endCondition > 0)
+	(_endCondition > 0 || if (_UseExplodeOnTimeout) then {time > _DeviceTimeout} else {false})
+};
+if (_endcondition < 1 && _UseExplodeOnTimeout) then {
+	for '_i' from 10 to (_alarmtime*60) step 10 do {
+		playSound3D ["a3\sounds_f\sfx\alarm_opfor.wss", objnull, false, ATLtoASL _pos, 15, 1, 3000];
+		uisleep 10;
+		_endCondition = [_pos,_units,_start,_timeout,_missionID,[_box1]]call SEM_fnc_endCondition;
+		if (_endCondition > 0) exitwith {};
+	};
+	if (_endCondition < 1) then {
+		_playersNear = _pos nearEntities[["Epoch_Male_F", "Epoch_Female_F"], _damageRadius];
+		{
+			[_pos] remoteExec ['EPOCH_client_earthQuake',_x];
+		} forEach _playersNear;
+		for '_i' from 0 to 10 do {
+			_dist = [6,15] call BIS_fnc_randomInt;
+			_direction = [0,359] call BIS_fnc_randomInt;
+			_randomPos = [_pos,_dist,_direction] call BIS_fnc_relPos;
+			_bomb = createVehicle ["SatchelCharge_Remote_Ammo_Scripted",_randomPos,[],0,"CAN_COLLIDE"];
+			_bomb setPosATL [_randomPos select 0, _randomPos select 1, 0.1];
+			uisleep 0.25;
+			_bomb setdamage 1;
+			uisleep 0.25;
+		};
+		if (_damagenearhouses) then {
+			_nearhouses = nearestobjects [_pos,['house'],_damageRadius]; 
+			{ 
+				_x setdamage ((random [0,((_damageRadius-(_pos distance _x))/_damageRadius),2])min 1); 
+			} foreach _nearhouses; 
+		};
+	};
 };
 
 SEM_globalMissionMarker = [false,_endCondition,_missionID,_missionType];

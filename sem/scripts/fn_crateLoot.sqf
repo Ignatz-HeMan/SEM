@@ -895,7 +895,7 @@ _out = switch (_loadout) do {
 	else {
 		for "_i" from 1 to (_min + _add) do {
 			_item = selectrandom _objArr;
-			_objArr = _objArr - [_item];
+//			_objArr = _objArr - [_item];
 			if (_item isequaltype []) then {
 				_crate addWeaponCargoGlobal [(_item select 0), 1];
 				_crate addMagazineCargoGlobal [(_item select 1), 2];
