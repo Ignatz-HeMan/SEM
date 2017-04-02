@@ -23,6 +23,10 @@ private["_this","_x","_forEachIndex"];
 			}];
 		};	_missionsArr = _missionsArr - ["delete"];				
 		
+		if (_missionsArr isequalto []) exitwith {
+			diag_log format ['#SEM DEBUG: Mission control of %1 Missions skipped. No Missions activated',_missionType];
+		};
+		
 		if(SEM_debug isEqualTo "full")then{
 			{
 				_x set [2, (10*60)]

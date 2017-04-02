@@ -11,7 +11,11 @@ Make your Changes in sem_config.sqf in the root folder of this pbo.
 - Complete rewritten loot script (scripts\fn_crateLoot.sqf)
 - Other smaller fixes / changes (don't remember all)
 
-Last Changelog:
+Changelog:
+
+2017-04-02
+- Fixed: Skip Static/Dynamic Missions if all set to disabled (-1 or 0) in Config
+
 2017-04-01
 - Fixed: Dynamic missions were broken, also if in Config activated
 - Added: Some Options to Bandit Device (sem\missionsStatic\bDevice.sqf)
