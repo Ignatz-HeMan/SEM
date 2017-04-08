@@ -66,7 +66,7 @@ for "_i" from 0 to ((count _objs) - 1) do
 		};
 		_newObj allowdamage false;
 		if !(_type in ["Box_NATO_AmmoVeh_F","Land_MetalCase_01_large_F"]) then {
-			if !(_newObj iskindof "house") then {
+			if !(_newObj iskindof "house" || _newObj iskindof "Landvehicle" || _newObj iskindof "SHIP" || _newObj iskindof "AIR" || _newObj iskindof "TANK" || _newObj iskindof "StaticWeapon") then {
 				_newObj enablesimulationglobal false;
 			};
 		};
