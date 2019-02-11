@@ -18,7 +18,7 @@ _cnt = (if(count _this > 1)then[{(_this select 1) max 4},{7}]); //Unit Count (mi
 _group = createGroup RESISTANCE;
 
 while {count (units _group) < _cnt} do {
-	_group createUnit ['I_Soldier_EPOCH', _pos, [], 10, 'NO_COLLIDE'];
+	_group createUnit ['I_Soldier_EPOCH', _pos, [], 10, 'NONE'];
 	sleep 0.1;
 };
 

@@ -13,7 +13,7 @@ waitUntil{
 	_searchRadius = _searchRadius + 10;
 	(count _spawnPos > 0)
 };
-_veh = createVehicle[_veh, _spawnPos, [], 0, "NO_COLLIDE"];
+_veh = createVehicle[_veh, _spawnPos, [], 0, "NONE"];
 _veh setVariable ["BIS_enableRandomization", false];
 _veh allowDamage false;
 _veh setDir _direction;
